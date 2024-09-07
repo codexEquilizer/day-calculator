@@ -4,6 +4,7 @@ function App() {
   return (
     <div className="App container">
       <h1>My Day Calculator</h1>
+      <h4>Using Controlled Element Technique</h4>
       <DayCalc />
     </div>
   );
@@ -19,17 +20,32 @@ function DayCalc() {
   return (
     <div>
       <div>
-        <button onClick={() => setStep((s) => s - 1)}>-</button>
+        <input
+          type="range"
+          min="0"
+          max="10"
+          value={step}
+          onChange={(e) => setStep(+e.target.value)}
+        />
         <span>Step: {step}</span>
-        <button onClick={() => setStep((s) => s + 1)}>+</button>
       </div>
       <br />
       <div>
-        <button disabled={step === 0} onClick={() => setCount((c) => c - step)}>
+        <button
+          disabled={step === 0}
+          onClick={() => setCount((count) => count - step)}
+        >
           -
         </button>
-        <span>Count: {count}</span>
-        <button disabled={step === 0} onClick={() => setCount((c) => c + step)}>
+        <input
+          type="text"
+          value={count}
+          onChange={(e) => setCount(+e.target.value)}
+        />
+        <button
+          disabled={step === 0}
+          onClick={() => setCount((count) => count + step)}
+        >
           +
         </button>
       </div>
@@ -45,13 +61,15 @@ function DayCalc() {
         <span>{date.toDateString()}</span>
       </p>
 
-      <button disabled={step === 1 && count === 0} onClick={reset}>
-        Reset
-      </button>
+      {step === 1 && count === 0 ? (
+        ""
+      ) : (
+        <button onClick={handleReset}>Reset</button>
+      )}
     </div>
   );
 
-  function reset() {
+  function handleReset() {
     setStep((s) => (s = 1));
     setCount((c) => (c = 0));
   }
